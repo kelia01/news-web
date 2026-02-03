@@ -13,7 +13,6 @@ const postSchema = new mongoose.Schema(
       unique: true,
     },
     excerpt: String,
-    content: String,
     category: {
       type: String,
       required: true,
@@ -28,6 +27,11 @@ const postSchema = new mongoose.Schema(
       ],
     },
     image: String,
+    author: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     publishedAt: {
       type: Date,
       default: Date.now,

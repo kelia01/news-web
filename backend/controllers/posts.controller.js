@@ -1,5 +1,6 @@
 // controllers/posts.controller.js
 import Post from "../models/Post.js";
+import slugify from "slugify";
 
 export const getAllPosts = async (req, res) => {
   const posts = await Post.find().sort({ publishedAt: -1 });
@@ -27,14 +28,28 @@ export const getSinglePost = async (req, res) => {
 
 export const createPost = async (req, res) => {
   try {
-    const { title, slug, category } = req.body;
+    const { title, excerpt, category, image } = req.body;
+    let baseSlug = slugify(title, {lower: true, strict: true})
+    let slug = baseSlug
+    let count = 1
 
-    if (!title || !slug || !category) {
+    while(await Post.findOne({ slug })) {
+      slug = `${baseSlug}-${count}`
+      count++
+    }
+
+    if (!title || !excerpt || !category || !image) {
       return res.status(400).json({
-        message: "Title, slug, and category are required",
+        message: "Title and category are required",
       });
     }
-    const post = await Post.create(req.body);
+    const post = await Post.create({
+      title,
+      slug,
+      excerpt,
+      category,
+      image,
+    });
 
     res.status(201).json({
       message: "Post created successfully",
