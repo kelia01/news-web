@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema(
       unique: true,
     },
     excerpt: String,
+    content: {
+  type: String,
+  required: true,
+},
     category: {
       type: String,
       required: true,
