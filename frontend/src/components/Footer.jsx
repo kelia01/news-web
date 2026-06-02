@@ -38,14 +38,12 @@ function Footer() {
       }}>
         <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(10, 25, 47, 0.9)' }} />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: '700px', margin: '0 auto', padding: '64px 24px', textAlign: 'center' }}>
-          <div style={{ fontSize: '0.7rem', letterSpacing: '0.3em', color: '#93c5fd', textTransform: 'uppercase', marginBottom: '12px', fontFamily: 'Inter, sans-serif' }}>
-            Itangazo ry'ahabanza
-          </div>
+          
           <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.2 }}>
-            Wakire Amakuru Mashya<br />Buri Munsi
+            Akira Amakuru Mashya<br />Buri Munsi
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.85)', marginBottom: '32px', fontFamily: "'Source Serif 4', Georgia, serif", fontSize: '1rem', lineHeight: 1.7 }}>
-            Iyandikishe ukakira amakuru y'ingenzi, inkuru zitatangazwa hirya no hino, no gufatana n'isi yose.
+            Iyandikishe wakire amakuru y'ingenzi, inkuru zibibera hirya no hino ndetse no ku isi hose.
           </p>
           <form style={{ display: 'flex', gap: '0', maxWidth: '480px', margin: '0 auto' }} onSubmit={(e) => e.preventDefault()}>
             <input
@@ -84,7 +82,7 @@ function Footer() {
                 BAGI <span style={{ color: '#2563eb' }}>NEWS</span>
               </div>
               <p style={{ fontSize: '0.85rem', color: '#94a3b8', lineHeight: 1.7, maxWidth: '220px', fontFamily: "'Source Serif 4', Georgia, serif" }}>
-                Ukuri gusa kuva ku banyamakuru b'ikirenga. Amakuru y'impamo y'isi yose.
+                Amakuru y'impamo ava ku banyamakuru b'ikirenga.
               </p>
               {/* Social icons */}
               <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>

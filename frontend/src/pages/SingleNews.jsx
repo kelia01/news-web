@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, User, Calendar, Tag, Loader2, AlertCircle, Share2 } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 const CATEGORY_COLORS = {
   Ubuzima: "#0d9488",   // Teal-Cyan
@@ -12,11 +12,28 @@ const CATEGORY_COLORS = {
   "Isi yose": "#3b82f6",  // Sky Blue
 };
 
+// Get current user from token stored in localStorage
+const getCurrentUser = () => {
+  console.log("localStorage keys:", Object.keys(localStorage));
+console.log("token:", localStorage.getItem("token"));
+console.log("currentUser:", currentUser);
+console.log("post.author._id:", post.author?._id);
+  const token = localStorage.getItem("token");
+  if (!token) return null;
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload; // has .id and .role
+  } catch {
+    return null;
+  }
+};
+
 export const SingleNews = () => {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -79,6 +96,28 @@ export const SingleNews = () => {
       </div>
     );
   }
+  const currentUser = getCurrentUser();
+
+const canDelete = post && currentUser && (
+  currentUser.id === post.author?._id ||
+  currentUser.role === "admin"
+);
+
+const handleDelete = async () => {
+  if (!window.confirm("Uzi neza ko ushaka gusiba iyi nkuru?")) return;
+
+  const token = localStorage.getItem("token");
+  const res = await fetch(`http://localhost:5000/posts/${post.slug}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (res.ok) {
+    navigate("/"); // make sure `useNavigate` is imported
+  } else {
+    alert("Gusiba byanze. Ongera ugerageze.");
+  }
+};
 
   return (
     <div style={{ backgroundColor: "#f8fafc", minHeight: "100vh" }}>
@@ -179,6 +218,23 @@ export const SingleNews = () => {
           >
             <Share2 size={13} /> Sangira
           </button>
+          {canDelete && (
+  <button
+    onClick={handleDelete}
+    style={{
+      display: "flex", alignItems: "center", gap: "6px",
+      fontFamily: "Inter, sans-serif", fontSize: "0.72rem", fontWeight: 700,
+      letterSpacing: "0.08em", textTransform: "uppercase",
+      color: "#fff", backgroundColor: "#dc2626",
+      border: "none", padding: "8px 14px", cursor: "pointer",
+      transition: "background-color 0.2s",
+    }}
+    onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#b91c1c")}
+    onMouseOut={(e) => (e.currentTarget.style.backgroundColor = "#dc2626")}
+  >
+    🗑 Siba
+  </button>
+)}
         </div>
 
         {/* Hero image */}

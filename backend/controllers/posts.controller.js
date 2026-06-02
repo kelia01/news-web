@@ -72,3 +72,24 @@ export const createPost = async (req, res) => {
   }
 };
 
+export const deletePost = async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const post = await Post.findOne({ slug });
+
+    if (!post) return res.status(404).json({ message: "Post not found" });
+
+    const isAuthor = post.author.toString() === req.user.id;
+    const isAdmin = req.user.role === "admin";
+
+    if (!isAuthor && !isAdmin) {
+      return res.status(403).json({ message: "Not authorized to delete this post" });
+    }
+
+    await Post.findOneAndDelete({ slug });
+    res.json({ message: "Post deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete post", error: error.message });
+  }
+};
+
