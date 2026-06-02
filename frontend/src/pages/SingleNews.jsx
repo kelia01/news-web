@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, User, Calendar, Tag, Loader2, AlertCircle, Share2 } from "lucide-react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const CATEGORY_COLORS = {
   Ubuzima: "#0d9488",   // Teal-Cyan
   Imikino: "#2563eb",    // Vibrant Royal Blue
@@ -40,7 +42,7 @@ export const SingleNews = () => {
       setLoading(true);
       setError("");
       try {
-        const response = await fetch(`http://localhost:5000/posts/${slug}`);
+        const response = await fetch(`${API_URL}/posts/${slug}`);
         if (!response.ok) {
           if (response.status === 404) throw new Error("Iyi nkuru ntabwo yabonetse.");
           throw new Error("Guhura na server byashinzwe.");
@@ -107,7 +109,7 @@ const handleDelete = async () => {
   if (!window.confirm("Uzi neza ko ushaka gusiba iyi nkuru?")) return;
 
   const token = localStorage.getItem("token");
-  const res = await fetch(`http://localhost:5000/posts/${post.slug}`, {
+  const res = await fetch(`${API_URL}/posts/${post.slug}`, {
     method: "DELETE",
     headers: { Authorization: `Bearer ${token}` },
   });

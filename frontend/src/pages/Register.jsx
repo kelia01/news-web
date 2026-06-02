@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Mail, Lock, Loader2, AlertCircle } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const inputStyle = {
   width: "100%", padding: "12px 14px 12px 42px",
   border: "1px solid #cbd5e1", backgroundColor: "#f8fafc",
@@ -26,7 +28,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/auth/register", {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
